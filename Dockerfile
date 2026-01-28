@@ -1,32 +1,16 @@
 # MusicGen-medium RunPod Serverless Dockerfile
+# Using pre-built audiocraft image to avoid dependency issues
 #
 # Build: docker build -t your-username/musicgen-runpod:latest .
 # Push:  docker push your-username/musicgen-runpod:latest
 
-FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
+# Use pre-built audiocraft image with all dependencies resolved
+FROM ashleykleynhans/audiocraft:3.3.0
 
 WORKDIR /app
 
-# Install system dependencies required for audiocraft/PyAV
-RUN apt-get update && apt-get install -y \
-    pkg-config \
-    libavformat-dev \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavutil-dev \
-    libswscale-dev \
-    libswresample-dev \
-    libavfilter-dev \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
-RUN pip install --upgrade pip && \
-    pip install \
-    runpod \
-    audiocraft \
-    scipy \
-    numpy
+# Install runpod SDK (audiocraft, torch, scipy, numpy already installed)
+RUN pip install --no-cache-dir runpod
 
 # Copy handler
 COPY handler.py /app/handler.py
