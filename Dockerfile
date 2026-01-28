@@ -5,7 +5,7 @@
 # Push:  docker push your-username/musicgen-runpod:latest
 
 # Use pre-built audiocraft image with all dependencies resolved
-FROM ashleykleynhans/audiocraft:3.3.0
+FROM ashleykza/audiocraft:latest
 
 WORKDIR /app
 
